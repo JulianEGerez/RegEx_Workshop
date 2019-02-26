@@ -238,7 +238,7 @@ gregexpr("a", pastas)[1:2] # returns index of all matches
 
 Two other functions to note are `sub` and `gsub`, which replace occurrences of the specified pattern. The former replaces only the first occurrence (i.e. if your pattern is `"p"` and you choose to replace it with a blank `""`, `sub` will remove only the first `"p"` in the string) while `gsub` replaces all occurrences.
 
-There are more ways you can work with the results of regular expression matches, and we'll come back to these, but for now let's actually use a `stringr` function you probably won't use a ton in the future: `str_view`. The nice thing about `str_view` is that it shows you your matches exactly. In this way, we can practice upping the complexity of our regular expressions as opposed to the functions surrounding the expressions.
+There are more ways you can work with the results of regular expression matches, and we'll come back to these, but for now let's actually use a `stringr` function you probably won't use a ton in the future: `str_view`. The nice thing about `str_view` is that it shows you your matches exactly. In this way, we can practice upping the complexity of our regular expressions as opposed to the functions surrounding the expressions. If you want a function that extracts these into a new character vector, you can use `str_extract`.
 
 ## Wildcard matches
 
