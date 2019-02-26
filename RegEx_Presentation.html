@@ -393,19 +393,19 @@ str_sub(emails, 1, 3)</code></pre>
 ## attr(,&quot;useBytes&quot;)
 ## [1] TRUE</code></pre>
 <p>Two other functions to note are <code>sub</code> and <code>gsub</code>, which replace occurrences of the specified pattern. The former replaces only the first occurrence (i.e. if your pattern is <code>&quot;p&quot;</code> and you choose to replace it with a blank <code>&quot;&quot;</code>, <code>sub</code> will remove only the first <code>&quot;p&quot;</code> in the string) while <code>gsub</code> replaces all occurrences.</p>
-<p>There are more ways you can work with the results of regular expression matches, and we’ll come back to these, but for now let’s actually use a <code>stringr</code> function you probably won’t use a ton in the future: <code>str_view</code>. The nice thing about <code>str_view</code> is that it shows you your matches exactly. In this way, we can practice upping the complexity of our regular expressions as opposed to the functions surrounding the expressions.</p>
+<p>There are more ways you can work with the results of regular expression matches, and we’ll come back to these, but for now let’s actually use a <code>stringr</code> function you probably won’t use a ton in the future: <code>str_view</code>. The nice thing about <code>str_view</code> is that it shows you your matches exactly. In this way, we can practice upping the complexity of our regular expressions as opposed to the functions surrounding the expressions. If you want a function that extracts these into a new character vector, you can use <code>str_extract</code>.</p>
 </div>
 <div id="wildcard-matches" class="section level2">
 <h2>Wildcard matches</h2>
 <p>We can use the <code>.</code> character to match <em>any</em> character except for a new line. Notice how the arguments of <code>str_view</code> are reversed, and we place the vector we’re searching in before the pattern we are searching for.</p>
 <pre class="r"><code>str_view(emails, &quot;.a&quot;)</code></pre>
-<div id="htmlwidget-8125cda76016d73117e6" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8125cda76016d73117e6">{"x":{"html":"<ul>\n  <li>lionel@g<span class='match'>ma<\/span>il.com<\/li>\n  <li>sergio@<span class='match'>ma<\/span>c.com<\/li>\n  <li>gon<span class='match'>za<\/span>lo@columbia.edu<\/li>\n  <li>angel@g<span class='match'>ma<\/span>il.com<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f5bf63d9aa3799555df2" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f5bf63d9aa3799555df2">{"x":{"html":"<ul>\n  <li>lionel@g<span class='match'>ma<\/span>il.com<\/li>\n  <li>sergio@<span class='match'>ma<\/span>c.com<\/li>\n  <li>gon<span class='match'>za<\/span>lo@columbia.edu<\/li>\n  <li>angel@g<span class='match'>ma<\/span>il.com<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Notice also how we are only capturing the <em>first</em> iteration of the match. Which instance of <code>.a</code> are we missing here as a result? We’ll “fix” this issue later when we learn about metacharacters.</p>
 <p>What if you want to match a <code>.</code> exactly? Remember our escape character? We can use the backslash to write an expression to match the period precisely. But wait, since the backslash is a special character, we have to escape <em>it</em> as well. This means that to match a period exactly, we can use <code>\\.</code>. This also means that if we want to match a single backslash exactly, we have to escape its escape characters, i.e. use <code>\\\\</code>, and so on!</p>
 <pre class="r"><code>str_view(emails, &quot;\\.&quot;)</code></pre>
-<div id="htmlwidget-18eaa66d97618068bb5b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-18eaa66d97618068bb5b">{"x":{"html":"<ul>\n  <li>lionel@gmail<span class='match'>.<\/span>com<\/li>\n  <li>sergio@mac<span class='match'>.<\/span>com<\/li>\n  <li>gonzalo@columbia<span class='match'>.<\/span>edu<\/li>\n  <li>angel@gmail<span class='match'>.<\/span>com<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-58467d7e99a1a6386700" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-58467d7e99a1a6386700">{"x":{"html":"<ul>\n  <li>lionel@gmail<span class='match'>.<\/span>com<\/li>\n  <li>sergio@mac<span class='match'>.<\/span>com<\/li>\n  <li>gonzalo@columbia<span class='match'>.<\/span>edu<\/li>\n  <li>angel@gmail<span class='match'>.<\/span>com<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>This is a very subtle point, but one that is very important, so let’s go through each of those quadruple backslashes individually to fix ideas:</p>
 <ul>
 <li>Why doesn’t <code>&quot;\&quot;</code> match a backslash exactly?</li>
@@ -424,16 +424,16 @@ str_sub(emails, 1, 3)</code></pre>
 </ul>
 <p>Going back to our pasta example, using <code>i</code> as our pattern will match the first <code>i</code> in each string, but using <code>i$</code> will match <code>i</code> if and only if it is the last character in the string.</p>
 <pre class="r"><code>str_view(pastas, &quot;i&quot;)</code></pre>
-<div id="htmlwidget-74040b20b665cb76fab9" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-74040b20b665cb76fab9">{"x":{"html":"<ul>\n  <li>pappardelle<\/li>\n  <li>farfalle<\/li>\n  <li>campanelle<\/li>\n  <li>bucat<span class='match'>i<\/span>ni<\/li>\n  <li>spaghett<span class='match'>i<\/span><\/li>\n  <li>gnocch<span class='match'>i<\/span><\/li>\n  <li>orecch<span class='match'>i<\/span>ete<\/li>\n  <li>penne<\/li>\n  <li>rav<span class='match'>i<\/span>oli<\/li>\n  <li>l<span class='match'>i<\/span>nguini<\/li>\n  <li>tortell<span class='match'>i<\/span>ni<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8357797f0a06b0174af6" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8357797f0a06b0174af6">{"x":{"html":"<ul>\n  <li>pappardelle<\/li>\n  <li>farfalle<\/li>\n  <li>campanelle<\/li>\n  <li>bucat<span class='match'>i<\/span>ni<\/li>\n  <li>spaghett<span class='match'>i<\/span><\/li>\n  <li>gnocch<span class='match'>i<\/span><\/li>\n  <li>orecch<span class='match'>i<\/span>ete<\/li>\n  <li>penne<\/li>\n  <li>rav<span class='match'>i<\/span>oli<\/li>\n  <li>l<span class='match'>i<\/span>nguini<\/li>\n  <li>tortell<span class='match'>i<\/span>ni<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>str_view(pastas, &quot;i$&quot;)</code></pre>
-<div id="htmlwidget-07e0712c893403cdac14" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-07e0712c893403cdac14">{"x":{"html":"<ul>\n  <li>pappardelle<\/li>\n  <li>farfalle<\/li>\n  <li>campanelle<\/li>\n  <li>bucatin<span class='match'>i<\/span><\/li>\n  <li>spaghett<span class='match'>i<\/span><\/li>\n  <li>gnocch<span class='match'>i<\/span><\/li>\n  <li>orecchiete<\/li>\n  <li>penne<\/li>\n  <li>raviol<span class='match'>i<\/span><\/li>\n  <li>linguin<span class='match'>i<\/span><\/li>\n  <li>tortellin<span class='match'>i<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9d965352cb46c34e2063" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9d965352cb46c34e2063">{"x":{"html":"<ul>\n  <li>pappardelle<\/li>\n  <li>farfalle<\/li>\n  <li>campanelle<\/li>\n  <li>bucatin<span class='match'>i<\/span><\/li>\n  <li>spaghett<span class='match'>i<\/span><\/li>\n  <li>gnocch<span class='match'>i<\/span><\/li>\n  <li>orecchiete<\/li>\n  <li>penne<\/li>\n  <li>raviol<span class='match'>i<\/span><\/li>\n  <li>linguin<span class='match'>i<\/span><\/li>\n  <li>tortellin<span class='match'>i<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Combining the two allows for some very specific matches: you can use this to match complete strings only:</p>
 <pre class="r"><code>food &lt;- c(&quot;apple pie&quot;, &quot;apple strudel&quot;, &quot;apple&quot;, &quot;cinnamon apple&quot;)
 str_view(food, &quot;^apple$&quot;)</code></pre>
-<div id="htmlwidget-3cdf63717c63e3339f35" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3cdf63717c63e3339f35">{"x":{"html":"<ul>\n  <li>apple pie<\/li>\n  <li>apple strudel<\/li>\n  <li><span class='match'>apple<\/span><\/li>\n  <li>cinnamon apple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8024c4aa64304cf18a0f" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8024c4aa64304cf18a0f">{"x":{"html":"<ul>\n  <li>apple pie<\/li>\n  <li>apple strudel<\/li>\n  <li><span class='match'>apple<\/span><\/li>\n  <li>cinnamon apple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>Let’s use <code>stringr</code>’s library of common words for some more practice. Your exercises are to write regular expressions to:</p>
 <ol style="list-style-type: decimal">
 <li>Find all words that start with <em>k</em>.</li>
@@ -490,13 +490,13 @@ writeLines(example)</code></pre>
 <pre><code>## Mary had a little &quot;lamb&quot;. Its fleece was &quot;white&quot; as snow.</code></pre>
 <p>We could use a regular expression like <code>\&quot;.+\&quot;</code> here (bonus: what does this expression mean in real words?), but something strange will happen:</p>
 <pre class="r"><code>str_view(example, &quot;\&quot;.+\&quot;&quot;)</code></pre>
-<div id="htmlwidget-3b7bfae1bf730cff900f" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3b7bfae1bf730cff900f">{"x":{"html":"<ul>\n  <li>Mary had a little <span class='match'>\"lamb\". Its fleece was \"white\"<\/span> as snow.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0652cf4dcf78416e28ec" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0652cf4dcf78416e28ec">{"x":{"html":"<ul>\n  <li>Mary had a little <span class='match'>\"lamb\". Its fleece was \"white\"<\/span> as snow.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>What’s going on here? The engine starts at the beginning of the string and searches for its first match, a <code>&quot;</code>. It gets to this 16 characters into the string. Then it sees the wildcard <code>.</code>, which means any character (except a new line). Since the <code>+</code> quantifier is modifying <code>.</code>, the engine reads that match as saying “find as many other characters” onward (greedily). The engine will actually go all the way to the end of the string and start searching for the next character, another <code>&quot;</code>. But since it’s at the end of the string it starts to backtrack, until reaching the first quote it runs into in reverse, this is the quotation mark at the end of “white”. <strong>When using greedy searches, by default, the quantifier is repeated as many times possible, which might not be what you want!</strong></p>
 <p>We can fix this by using a lazy quantifier as follows:</p>
 <pre class="r"><code>str_view(example, &quot;\&quot;.+?\&quot;&quot;)</code></pre>
-<div id="htmlwidget-74a1613e9dbae7e41701" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-74a1613e9dbae7e41701">{"x":{"html":"<ul>\n  <li>Mary had a little <span class='match'>\"lamb\"<\/span>. Its fleece was \"white\" as snow.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2a59777f79761f92aca0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2a59777f79761f92aca0">{"x":{"html":"<ul>\n  <li>Mary had a little <span class='match'>\"lamb\"<\/span>. Its fleece was \"white\" as snow.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 <p>To be clear: usually <code>?</code> is a quantifier by itself (zero or one), but if added after another quantifier (or even itself) it gets another meaning: it switches the matching mode from greedy to lazy.</p>
 <p>Back to our favorite set of examples for some practice. Create regular expressions to find words that:</p>
 <ol style="list-style-type: decimal">
